@@ -62,7 +62,7 @@ jobs:
         run: |
           gh release view "$TODAY" >/dev/null 2>&1 || \
           gh release create "$TODAY" \
-            --title "Podcast Archives - $TODAY" \
+            --title "$TODAY" \
             --notes "Automated podcast archives for $TODAY grouped by show."
 
       - name: Download today's existing ZIPs, merge and build
