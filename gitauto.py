@@ -60,7 +60,8 @@ OUT_DIR = "out"                    # ZIPים להעלאה
 TEST_SEND = os.environ.get("TEST_SEND") == "true"
 
 MAX_ATTEMPTS = 3                   # אחרי כמה ריצות מוותרים על פרק שנכשל
-MAX_SEEN = 1000                    # כמה מזהי פרקים לשמור לכל פיד
+MAX_IDS_FALLBACK = 200             # כמה מזהים לשמור לפיד בלי תאריכים
+FALLBACK_WINDOW = 20               # כמה פרקים אחרונים לבדוק בפיד בלי תאריכים
 MAX_TITLE_LEN = 150                # אורך מקסימלי של שם פרק בשם הקובץ
 ZIP_LIMIT = 1_900_000_000          # מגבלת GitHub לקובץ: 2GiB, משאירים מרווח
 
@@ -282,6 +283,83 @@ def process_entry(feed_url, feed_title, entry):
 # ---------------------------------------------------------------------------
 
 
+def entry_ts(e):
+    p = e.get("published_parsed") or e.get("updated_parsed")
+    return calendar.timegm(p) if p else None
+
+
+def entry_id(e):
+    return e.get("id") or e.get("link") or e.get("title")
+
+
+def handle_dated(state, failures, feed_url, feed_title, entries, stamps):
+    """מצב ברירת מחדל: שומרים רק תאריך של הפרק האחרון שהורד."""
+    latest = max(stamps)
+    old = state.get(feed_url)
+
+    # ריצה ראשונה, או מעבר מהפורמט הישן (רשימת מזהים): רק מסמנים, לא מורידים
+    if not isinstance(old, int):
+        state[feed_url] = latest
+        return
+
+    fail = failures.setdefault(feed_url, {})
+    new = sorted(
+        ((t, e) for t, e in zip(stamps, entries) if t > old),
+        key=lambda x: x[0],
+    )
+    last = old
+    for t, e in new:
+        eid = entry_id(e)
+        if process_entry(feed_url, feed_title, e):
+            last = t
+            fail.pop(eid, None)
+        else:
+            n = fail.get(eid, 0) + 1
+            if n >= MAX_ATTEMPTS:
+                print(f"מוותר על פרק אחרי {n} ריצות שנכשלו: {eid}")
+                last = t
+                fail.pop(eid, None)
+            else:
+                fail[eid] = n
+                break   # לא מתקדמים, ינסה שוב בריצה הבאה
+
+    state[feed_url] = last
+    current = {entry_id(e) for e in entries}
+    failures[feed_url] = {k: v for k, v in fail.items() if k in current}
+
+
+def handle_undated(state, failures, feed_url, feed_title, entries):
+    """פיד בלי תאריכים: רשימת מזהים קצרה, ובודקים רק את הפרקים האחרונים."""
+    window = entries[:FALLBACK_WINDOW]
+    ids = [entry_id(e) for e in window]
+    old = state.get(feed_url)
+
+    if not isinstance(old, list):     # ריצה ראשונה (או שהיה מספר)
+        state[feed_url] = ids
+        return
+
+    seen = set(old)
+    fail = failures.setdefault(feed_url, {})
+    for e, i in reversed(list(zip(window, ids))):
+        if i in seen:
+            continue
+        if process_entry(feed_url, feed_title, e):
+            seen.add(i)
+            fail.pop(i, None)
+        else:
+            n = fail.get(i, 0) + 1
+            if n >= MAX_ATTEMPTS:
+                print(f"מוותר על פרק אחרי {n} ריצות שנכשלו: {i}")
+                seen.add(i)
+                fail.pop(i, None)
+            else:
+                fail[i] = n
+
+    ids_set = set(ids)
+    state[feed_url] = (ids + [i for i in old if i not in ids_set])[:MAX_IDS_FALLBACK]
+    failures[feed_url] = {k: v for k, v in fail.items() if k in ids_set}
+
+
 def main():
     state = load_state()
     failures = state.get(FAIL_KEY, {})
@@ -292,46 +370,25 @@ def main():
 
         parsed = feedparser.parse(feed_url)
         if not parsed.entries:
+            print(f"הפיד ריק או לא נטען, מדלג: {feed_url}")
             continue
 
         feed_title = parsed.feed.get("title", "Podcast")
         entries = parsed.entries
-        ids = [e.get("id") or e.get("link") or e.get("title") for e in entries]
 
-        if TEST_SEND and entries:
+        if TEST_SEND:
             process_entry(feed_url, feed_title, entries[0])
-            state.setdefault(feed_url, ids)
             continue
 
-        if feed_url not in state:
-            state[feed_url] = ids
-            continue
+        stamps = [entry_ts(e) for e in entries]
+        dated = sum(1 for t in stamps if t)
 
-        old_list = list(state[feed_url])
-        seen = set(old_list)
-        fail = failures.setdefault(feed_url, {})
-
-        for entry, eid in reversed(list(zip(entries, ids))):
-            if eid in seen:
-                continue
-            if process_entry(feed_url, feed_title, entry):
-                seen.add(eid)
-                fail.pop(eid, None)
-            else:
-                n = fail.get(eid, 0) + 1
-                if n >= MAX_ATTEMPTS:
-                    print(f"מוותר על פרק אחרי {n} ריצות שנכשלו: {eid}")
-                    seen.add(eid)
-                    fail.pop(eid, None)
-                else:
-                    fail[eid] = n
-
-        # סדר שמירה: קודם מה שעדיין בפיד, אחר כך ישנים יותר, עם תקרה
-        ids_set = set(ids)
-        current = [i for i in ids if i in seen]
-        older = [i for i in old_list if i not in ids_set]
-        state[feed_url] = (current + older)[:MAX_SEEN]
-        failures[feed_url] = {k: v for k, v in fail.items() if k in ids_set}
+        if dated == len(entries):
+            handle_dated(state, failures, feed_url, feed_title, entries, stamps)
+        else:
+            print(f"אין תאריכים בפיד ({dated}/{len(entries)} עם תאריך), "
+                  f"עובר לשיטת מזהים: {feed_title}")
+            handle_undated(state, failures, feed_url, feed_title, entries)
 
     state[FAIL_KEY] = failures
     save_state(state)
