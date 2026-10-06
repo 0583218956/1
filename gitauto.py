@@ -62,7 +62,7 @@ TEST_SEND = os.environ.get("TEST_SEND") == "true"
 MAX_ATTEMPTS = 3                   # אחרי כמה ריצות מוותרים על פרק שנכשל
 MAX_IDS_FALLBACK = 200             # כמה מזהים לשמור לפיד בלי תאריכים
 FALLBACK_WINDOW = 20               # כמה פרקים אחרונים לבדוק בפיד בלי תאריכים
-MAX_TITLE_LEN = 150                # אורך מקסימלי של שם פרק בשם הקובץ
+MAX_TITLE_LEN = 200                # אורך מקסימלי של שם פרק בשם הקובץ
 ZIP_LIMIT = 1_900_000_000          # מגבלת GitHub לקובץ: 2GiB, משאירים מרווח
 
 SHOWS = {}                         # slug -> שם התוכנית המקורי (לריצה הנוכחית)
@@ -255,7 +255,7 @@ def process_entry(feed_url, feed_title, entry):
         ext = sniff_ext(head, hint) or hint or "mp3"
 
         os.makedirs(show_dir, exist_ok=True)
-        path = unique_path(show_dir, safe_filename(title), ext)
+        path = unique_path(show_dir, safe_filename(f"[{feed_title}] {title}"), ext)
         shutil.move(tmp, path)
 
         pub = entry.get("published_parsed")
