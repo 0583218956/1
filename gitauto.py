@@ -46,6 +46,10 @@ FEEDS = [
     "https://feeds.transistor.fm/think-fast-talk-smart-communication-techniques",
     "https://feeds.megaphone.fm/NRD2548999404",
     "https://api.substack.com/feed/podcast/1449053.rss",
+    "https://podcasts.files.bbci.co.uk/p02nq0lx.rss",
+    "https://rss.art19.com/against-the-odds",
+    "https://feeds.megaphone.fm/FSMI7575968096",
+    "https://feeds.megaphone.fm/darknetdiaries",
 ]
 
 STATE_FILE = "seen.json"
