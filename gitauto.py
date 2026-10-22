@@ -50,6 +50,7 @@ FEEDS = [
     "https://rss.art19.com/against-the-odds",
     "https://feeds.megaphone.fm/FSMI7575968096",
     "https://feeds.megaphone.fm/darknetdiaries",
+    "https://thisislow.com/podcast.rss",
 ]
 
 STATE_FILE = "seen.json"
