@@ -52,6 +52,8 @@ FEEDS = [
     "https://feeds.megaphone.fm/darknetdiaries",
     "https://thisislow.com/podcast.rss",
     "https://feeds.megaphone.fm/cyberwire-daily-podcast",
+    "https://feeds.acast.com/public/shows/cyber",
+    "https://feeds.soundcloud.com/users/soundcloud:users:261098918/sounds.rss",
     
 ]
 
