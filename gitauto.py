@@ -51,6 +51,8 @@ FEEDS = [
     "https://feeds.megaphone.fm/FSMI7575968096",
     "https://feeds.megaphone.fm/darknetdiaries",
     "https://thisislow.com/podcast.rss",
+    "https://feeds.megaphone.fm/cyberwire-daily-podcast",
+    
 ]
 
 STATE_FILE = "seen.json"
