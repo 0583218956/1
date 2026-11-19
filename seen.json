@@ -2,7 +2,7 @@
   "https://feeds.simplecast.com/54nAGcIl": 1795085270,
   "https://techblogwriter.libsyn.com/rss": 1795046400,
   "https://feeds.feedburner.com/TEDTalks_audio": 1795038361,
-  "https://feeds.simplecast.com/ZgXQt_UM": 1794519885,
+  "https://feeds.simplecast.com/ZgXQt_UM": 1795095489,
   "https://podcasts.files.bbci.co.uk/p02nq0gn.rss": 1795065540,
   "https://feed.podbean.com/dailyworldbrief/feed.xml": 1795002411,
   "https://rss.amperwave.net/v2/feed/audacynetwork/4cbf0abf775be3cab2bd61a739939f1b": 1794794400,
@@ -28,7 +28,7 @@
   "https://www.spreaker.com/show/5956723/episodes/feed": 1795086902,
   "https://feeds.megaphone.fm/SIXMSB5088139739": 1795068000,
   "https://feeds.npr.org/510298/podcast.xml": 1794556800,
-  "https://feeds.transistor.fm/think-fast-talk-smart-communication-techniques": 1794837600,
+  "https://feeds.transistor.fm/think-fast-talk-smart-communication-techniques": 1795096800,
   "https://feeds.megaphone.fm/NRD2548999404": 1795075800,
   "__failures__": {
     "https://feeds.simplecast.com/54nAGcIl": {},
@@ -78,5 +78,5 @@
   "https://thisislow.com/podcast.rss": 1790038800,
   "https://feeds.megaphone.fm/cyberwire-daily-podcast": 1795037400,
   "https://feeds.acast.com/public/shows/cyber": 1778082422,
-  "https://api.substack.com/feed/podcast/1449053.rss": 1794340872
+  "https://api.substack.com/feed/podcast/1449053.rss": 1794945653
 }
