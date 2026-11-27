@@ -2,7 +2,7 @@
   "https://feeds.simplecast.com/54nAGcIl": 1795690800,
   "https://techblogwriter.libsyn.com/rss": 1795651200,
   "https://feeds.feedburner.com/TEDTalks_audio": 1795683600,
-  "https://feeds.simplecast.com/ZgXQt_UM": 1795095489,
+  "https://feeds.simplecast.com/ZgXQt_UM": 1795766776,
   "https://podcasts.files.bbci.co.uk/p02nq0gn.rss": 1795756800,
   "https://feed.podbean.com/dailyworldbrief/feed.xml": 1795693610,
   "https://rss.amperwave.net/v2/feed/audacynetwork/4cbf0abf775be3cab2bd61a739939f1b": 1795410000,
@@ -16,7 +16,7 @@
   "https://feeds.megaphone.fm/WWO7410387571": 1795690800,
   "https://feeds.megaphone.fm/RSV1597324942": 1795658400,
   "https://rss2.flightcast.com/xmsftuzjjykcmqwolaqn6mdn": 1795759200,
-  "https://www.omnycontent.com/d/playlist/e73c998e-6e60-432f-8610-ae210140c5b1/32f1779e-bc01-4d36-89e6-afcb01070c82/e0c8382f-48d4-42bb-89d5-afcb01075cb4/podcast.rss": 1795593600,
+  "https://www.omnycontent.com/d/playlist/e73c998e-6e60-432f-8610-ae210140c5b1/32f1779e-bc01-4d36-89e6-afcb01070c82/e0c8382f-48d4-42bb-89d5-afcb01075cb4/podcast.rss": 1795766400,
   "https://anchor.fm/s/1007c648c/podcast/rss": 1784810700,
   "https://anchor.fm/s/102ae1cf0/podcast/rss": 1791910800,
   "https://tonyrobbins.libsyn.com/rss": 1795110180,
@@ -27,9 +27,9 @@
   "https://podcastfeeds.nbcnews.com/dateline-nbc": 1795600800,
   "https://www.spreaker.com/show/5956723/episodes/feed": 1795605302,
   "https://feeds.megaphone.fm/SIXMSB5088139739": 1795672800,
-  "https://feeds.npr.org/510298/podcast.xml": 1795161600,
+  "https://feeds.npr.org/510298/podcast.xml": 1795766400,
   "https://feeds.transistor.fm/think-fast-talk-smart-communication-techniques": 1795701600,
-  "https://feeds.megaphone.fm/NRD2548999404": 1795420800,
+  "https://feeds.megaphone.fm/NRD2548999404": 1795766400,
   "__failures__": {
     "https://feeds.simplecast.com/54nAGcIl": {},
     "https://techblogwriter.libsyn.com/rss": {},
@@ -76,7 +76,7 @@
   "https://feeds.megaphone.fm/FSMI7575968096": 1795518000,
   "https://feeds.megaphone.fm/darknetdiaries": 1793692800,
   "https://thisislow.com/podcast.rss": 1790038800,
-  "https://feeds.megaphone.fm/cyberwire-daily-podcast": 1795680000,
+  "https://feeds.megaphone.fm/cyberwire-daily-podcast": 1795766400,
   "https://feeds.acast.com/public/shows/cyber": 1778082422,
   "https://api.substack.com/feed/podcast/1449053.rss": 1795550490
 }
